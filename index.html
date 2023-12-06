@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html ng-app="application" lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <!-- <base href="/"> -->
+    <title>Dhokla.net - Download Movies / Tv Shows Free!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="#A387FD" name="theme-color">
+    <meta name="title" content="Dhokla.net - Download Movies / Tv Shows Free!">
+    <meta name="description"
+          content="Enjoy a simple, fast, buffer-free, and reliable downloading experience for Movies, TV series, and Anime.">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Dhokla.net"/>
+    <meta property="og:url" content="https://dhokla.net"/>
+    <meta property="og:title" content="Dhokla.net - Download Movies / Tv Shows Free!"/>
+    <meta property="og:description"
+          content="Enjoy a simple, fast, buffer-free, and reliable downloading experience for Movies, TV series, and Anime."/>
+    <meta property="og:image" content="android-chrome-512x512.png"/>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary"/>
+    <meta property="twitter:url" content="https://dhokla.net"/>
+    <meta property="twitter:title" content="Dhokla.net - Download Movies / Tv Shows Free!"/>
+    <meta property="twitter:description"
+          content="Enjoy a simple, fast, buffer-free, and reliable downloading experience for Movies, TV series, and Anime."/>
+    <meta property="twitter:image" content="android-chrome-512x512.png"/>
+    <!--    SEO   -->
+    <meta name="keywords" content="movies, animes, download, tv shows, series">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="burritoflakes">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body ng-controller="controller">
+
+<div class="wrapper">
+    <div class="top_panel">
+        <div class="top_panel_menu">
+            <div class="top_panel_user_menu">
+                <div class="nav_div">
+                    <a class="tdn" href="/">Home</a>
+<!--                    <a class="tdn" href="https://vadapav.tv/ts/hits/week">Bulk Download</a>-->
+                    <a class="tdn" href="https://discord.gg/QtAwpdFKU5" style="font-weight:bold;color:var(--important-color)">Discord Community</a>
+<!--                    <a class="tdn" href="https://vadapav.tv/community">API</a>-->
+                </div>
+                <span class="sitename">@dhokla.net &gt; </span>
+            </div>
+            <div class="top_panel_search_bar">
+                <div class="search_div">
+                    <input type="search" placeholder="&gt;search" class="search_input" ng-model="query" ng-keypress="($event.which === 13) && search(query)" autofocus="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navigation" ng-cloak>
+        <div class="navigation_div">
+            <a class="tdn" href="/" ng-click="!loading && load('')" ng-class="{'disabled-link': loading}">Home</a> /
+            <span ng-repeat="breadcrumb in breadcrumbs">
+                <span ng-if="!$last">
+                    <a class="tdn" href="" ng-click="!loading && load(breadcrumb.id)" ng-class="{'disabled-link': loading}">{{ breadcrumb.name }}</a> /
+                </span>
+                <span ng-if="$last" style="color: var(--color-highlight)">
+                    {{ breadcrumb.name }}
+                </span>
+            </span>
+        </div>
+    </div>
+    <div class="directory" ng-cloak>
+        <ul>
+            <li class="fm-header">
+                <div>Name</div>
+                <div>Size</div>
+            </li>
+            <li ng-show="loading" class="loading">
+                <img src="loading.svg" alt="loading image" width="100px">
+            </li>
+            <li class="empty" ng-show="directory.files.length === 0 && !loading">
+                <h1>Empty</h1>
+            </li>
+            <li ng-repeat="file in directory.files" ng-show="!loading" ng-class="file.dir && 'active'">
+                <div class="name-div centerflex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" ng-show="file.dir">
+                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" ng-show="!file.dir">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V6.884z"/>
+                    </svg>
+                    <div ng-click="file.dir ? load(file.id) : open(file)" class="name-span wrap">{{file.name}}</div>
+                </div>
+                <div class="action-div centerflex" ng-show="!file.dir">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" class="button" ng-click="download(file)">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" class="button" ng-click="copyLink(file)">
+                        <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                        <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                    </svg>
+                </div>
+                <div class="size-div">{{file.size}}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="mirror-container" ng-cloak>
+        <h4>🐌 Downloads dragging?</h4>
+        <p>Zoom over to our <a href="https://na1.dhokla.net" target="_blank" class="mirror-link">North America
+            Mirror</a> for warp-speed downloads! 🚀</p>
+        <p><small>Psst... European and Indian mirrors sneaking in soon!</small></p>
+    </div>
+</div>
+<script src="./angular.min.js"></script>
+<script src="./main.js"></script>
+</body>
+</html>
